@@ -14,7 +14,7 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         // Load the FXML file and set up the scene
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("com/example/vehicle/hello-view.fxml")); // Adjust the FXML path
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("hello-view.fxml")); // Adjust the FXML path
         Scene scene = new Scene(fxmlLoader.load());
 
         // Set the title and scene for the stage
