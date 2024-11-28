@@ -4,12 +4,10 @@ import com.example.vehicle.database.DBConnection;
 import com.example.vehicle.model.Rental;
 import com.example.vehicle.model.User;
 import com.example.vehicle.model.Vehicle;
-
 import java.sql.*;
 import java.util.Date;
 
 public class RentalDAO {
-
     // Get a rental by its ID
     public Rental getRentalById(int rentalId) throws SQLException {
         String query = "SELECT * FROM rentals WHERE rental_id = ?";
@@ -33,8 +31,7 @@ public class RentalDAO {
         }
         return null;
     }
-
-    // Fetch user by ID (helper method)
+    // get user by ID (helper method)
     private User getUserById(int userId) throws SQLException {
         String query = "SELECT * FROM users WHERE user_id = ?";
         try (Connection conn = DBConnection.getConnection();
@@ -47,8 +44,7 @@ public class RentalDAO {
         }
         return null;
     }
-
-    // Fetch vehicle by ID (helper method)
+    // get vehicle by ID (helper method)
     private Vehicle getVehicleById(int vehicleId) throws SQLException {
         String query = "SELECT * FROM vehicles WHERE vehicle_id = ?";
         try (Connection conn = DBConnection.getConnection();
@@ -66,27 +62,24 @@ public class RentalDAO {
         }
         return null;
     }
-
     // Add a new rental
     public boolean addRental(Rental rental) throws SQLException {
-        // Calculate total cost based on start date, end date, and vehicle price
         long duration = rental.getEndDate().getTime() - rental.getStartDate().getTime();
-        long days = duration / (1000 * 60 * 60 * 24);  // Convert milliseconds to days
+        long days = duration / (1000 * 60 * 60 * 24);
         double totalCost = days * rental.getVehicle().getPricePerDay();
 
         String query = "INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, total_cost) VALUES (?, ?, ?, ?, ?)";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
-            stmt.setInt(1, rental.getUser().getUserID());  // Using userId, not userName
+            stmt.setInt(1, rental.getUser().getUserID());
             stmt.setInt(2, rental.getVehicle().getVehicleId());
             stmt.setDate(3, new java.sql.Date(rental.getStartDate().getTime()));
             stmt.setDate(4, new java.sql.Date(rental.getEndDate().getTime()));
-            stmt.setDouble(5, totalCost);  // Use calculated total cost
+            stmt.setDouble(5, totalCost);
             int rowsAffected = stmt.executeUpdate();
-            return rowsAffected > 0;  // Return true if the rental was added successfully
+            return rowsAffected > 0;
         }
     }
-
     // Update rental details
     public boolean updateRental(Rental rental) throws SQLException {
         // Calculate total cost again when updating
@@ -105,7 +98,6 @@ public class RentalDAO {
             return rowsAffected > 0;
         }
     }
-
     // Delete rental by ID
     public boolean deleteRental(int rentalId) throws SQLException {
         String query = "DELETE FROM rentals WHERE rental_id = ?";
@@ -115,5 +107,8 @@ public class RentalDAO {
             int rowsAffected = stmt.executeUpdate();
             return rowsAffected > 0;
         }
+    }
+    public Rental[] getAllRentals() {
+        return null;
     }
 }

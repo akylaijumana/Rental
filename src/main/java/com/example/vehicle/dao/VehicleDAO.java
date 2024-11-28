@@ -1,9 +1,7 @@
 package com.example.vehicle.dao;
-
 import com.example.vehicle.database.DBConnection;
 import com.example.vehicle.model.Vehicle;
 import java.sql.*;
-
 public class VehicleDAO {
 
     // Get a vehicle by its ID
@@ -22,9 +20,8 @@ public class VehicleDAO {
                 );
             }
         }
-        return null;  // If no vehicle found
+        return null;
     }
-
     // Add a new vehicle
     public boolean addVehicle(Vehicle vehicle) throws SQLException {
         String query = "INSERT INTO vehicles (model, license_plate, price_per_day) VALUES (?, ?, ?)";
@@ -34,10 +31,9 @@ public class VehicleDAO {
             stmt.setString(2, vehicle.getLicensePlate());
             stmt.setDouble(3, vehicle.getPricePerDay());
             int rowsAffected = stmt.executeUpdate();
-            return rowsAffected > 0;  // Return true if insertion is successful
+            return rowsAffected > 0;
         }
     }
-
     // Update vehicle details
     public boolean updateVehicle(Vehicle vehicle) throws SQLException {
         String query = "UPDATE vehicles SET model = ?, license_plate = ?, price_per_day = ? WHERE vehicle_id = ?";
@@ -48,10 +44,9 @@ public class VehicleDAO {
             stmt.setDouble(3, vehicle.getPricePerDay());
             stmt.setInt(4, vehicle.getVehicleId());
             int rowsAffected = stmt.executeUpdate();
-            return rowsAffected > 0;  // Return true if the update was successful
+            return rowsAffected > 0;
         }
     }
-
     // Delete a vehicle by ID
     public boolean deleteVehicle(int vehicleId) throws SQLException {
         String query = "DELETE FROM vehicles WHERE vehicle_id = ?";
@@ -59,7 +54,10 @@ public class VehicleDAO {
              PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setInt(1, vehicleId);
             int rowsAffected = stmt.executeUpdate();
-            return rowsAffected > 0;  // Return true if deletion was successful
+            return rowsAffected > 0;
         }
+    }
+    public Vehicle[] getAllVehicles() {
+        return null;
     }
 }

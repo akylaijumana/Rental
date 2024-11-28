@@ -6,15 +6,18 @@ import com.example.vehicle.dao.RentalDAO;
 import com.example.vehicle.model.Vehicle;
 import com.example.vehicle.model.User;
 import com.example.vehicle.model.Rental;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import java.sql.*;
 import java.util.Date;
 
 public class MainController {
-
     // Vehicle fields
     @FXML private TextField vehicleModelField;
     @FXML private TextField vehicleLicensePlateField;
@@ -25,7 +28,7 @@ public class MainController {
 
     // User fields
     @FXML private TextField userNameField;
-    @FXML private TextField userIdField;  // Added a field for the user ID
+    @FXML private TextField userIdField;
     @FXML private Button addUserButton;
     @FXML private Button updateUserButton;
     @FXML private Button deleteUserButton;
@@ -33,151 +36,68 @@ public class MainController {
     // Rental fields
     @FXML private TextField rentalUserIdField;
     @FXML private TextField rentalVehicleIdField;
-    @FXML private DatePicker startDateField;  // Assuming you are using a DatePicker for dates
-    @FXML private DatePicker endDateField;    // Assuming you are using a DatePicker for dates
+    @FXML private DatePicker startDateField;
+    @FXML private DatePicker endDateField;
     @FXML private Button addRentalButton;
+    @FXML private TextField rentalIdField;
+    @FXML private Button updateRentalButton;
+    @FXML private Button deleteRentalButton;
+    @FXML private ListView<String> listView;
 
     private VehicleDAO vehicleDAO = new VehicleDAO();
     private UserDAO userDAO = new UserDAO();
     private RentalDAO rentalDAO = new RentalDAO();
 
-    // Vehicle CRUD operations
+    private ObservableList<String> listViewItems = FXCollections.observableArrayList();
+
     @FXML
     public void handleAddVehicle() {
-        String model = vehicleModelField.getText();
-        String licensePlate = vehicleLicensePlateField.getText();
-        double pricePerDay = Double.parseDouble(vehiclePriceField.getText());
-
-        Vehicle vehicle = new Vehicle(0, model, licensePlate, pricePerDay);
-        try {
-            boolean success = vehicleDAO.addVehicle(vehicle);
-            if (success) {
-                System.out.println("Vehicle added successfully.");
-            } else {
-                System.out.println("Failed to add vehicle.");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
-
     @FXML
     public void handleUpdateVehicle() {
-        int vehicleId = Integer.parseInt(vehicleModelField.getText());
-        String model = vehicleModelField.getText();
-        String licensePlate = vehicleLicensePlateField.getText();
-        double pricePerDay = Double.parseDouble(vehiclePriceField.getText());
-
-        Vehicle vehicle = new Vehicle(vehicleId, model, licensePlate, pricePerDay);
-        try {
-            boolean success = vehicleDAO.updateVehicle(vehicle);
-            if (success) {
-                System.out.println("Vehicle updated successfully.");
-            } else {
-                System.out.println("Failed to update vehicle.");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
-
     @FXML
     public void handleDeleteVehicle() {
-        int vehicleId = Integer.parseInt(vehicleModelField.getText());
-        try {
-            boolean success = vehicleDAO.deleteVehicle(vehicleId);
-            if (success) {
-                System.out.println("Vehicle deleted successfully.");
-            } else {
-                System.out.println("Failed to delete vehicle.");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
-
-    // User CRUD operations
     @FXML
     public void handleAddUser() {
-        String name = userNameField.getText();
-
-        User user = new User(name);
-        try {
-            boolean success = userDAO.insertUser(user);
-            if (success) {
-                System.out.println("User added successfully.");
-            } else {
-                System.out.println("Failed to add user.");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
-
     @FXML
     public void handleUpdateUser() {
-        int userId = Integer.parseInt(userIdField.getText());
-        String name = userNameField.getText();
-
-        User user = new User(userId, name);
-        try {
-            boolean success = userDAO.updateUser(user);
-            if (success) {
-                System.out.println("User updated successfully.");
-            } else {
-                System.out.println("Failed to update user.");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
-
     @FXML
     public void handleDeleteUser() {
-        int userId = Integer.parseInt(userIdField.getText());
-        try {
-            boolean success = userDAO.deleteUser(userId);
-            if (success) {
-                System.out.println("User deleted successfully.");
-            } else {
-                System.out.println("Failed to delete user.");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
-
-    // Rental CRUD operation
     @FXML
     public void handleAddRental() {
+    }
+
+    // Update rental method
+    @FXML
+    public void handleUpdateRental() {
+        int rentalId = Integer.parseInt(rentalIdField.getText());
         int userId = Integer.parseInt(rentalUserIdField.getText());
         int vehicleId = Integer.parseInt(rentalVehicleIdField.getText());
 
         try {
-            // Fetch User and Vehicle from the database
-            User user = userDAO.getUserById(userId);  // Assuming you have a method to get user by ID
-            Vehicle vehicle = vehicleDAO.getVehicleById(vehicleId);  // Assuming you have a method to get vehicle by ID
+            User user = userDAO.getUserById(userId);
+            Vehicle vehicle = vehicleDAO.getVehicleById(vehicleId);
 
-            // Ensure the user and vehicle are found
             if (user != null && vehicle != null) {
-                // Get start date and end date from DatePickers (convert them to java.util.Date)
-                Date startDate = java.sql.Date.valueOf(startDateField.getValue());  // Convert LocalDate to java.util.Date
-                Date endDate = java.sql.Date.valueOf(endDateField.getValue());  // Convert LocalDate to java.util.Date
+                Date startDate = java.sql.Date.valueOf(startDateField.getValue());
+                Date endDate = java.sql.Date.valueOf(endDateField.getValue());
 
-                // Calculate total cost (example: days * price per day)
                 long durationInMilliSeconds = endDate.getTime() - startDate.getTime();
                 long durationInDays = durationInMilliSeconds / (1000 * 60 * 60 * 24);
                 double totalCost = durationInDays * vehicle.getPricePerDay();
 
-                // Create Rental object
-                Rental rental = new Rental(0, user, vehicle, startDate, endDate, totalCost);
-
-                // Add rental to database
-                boolean success = rentalDAO.addRental(rental);
+                Rental rental = new Rental(rentalId, user, vehicle, startDate, endDate, totalCost);
+                boolean success = rentalDAO.updateRental(rental);
                 if (success) {
-                    System.out.println("Rental added successfully.");
+                    System.out.println("Rental updated successfully.");
+                    updateListView();
                 } else {
-                    System.out.println("Failed to add rental.");
+                    System.out.println("Failed to update rental.");
                 }
             } else {
                 System.out.println("User or Vehicle not found.");
@@ -185,5 +105,39 @@ public class MainController {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    // Delete rental method
+    @FXML
+    public void handleDeleteRental() {
+        int rentalId = Integer.parseInt(rentalIdField.getText());
+        try {
+            boolean success = rentalDAO.deleteRental(rentalId);
+            if (success) {
+                System.out.println("Rental deleted successfully.");
+                updateListView();
+            } else {
+                System.out.println("Failed to delete rental.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Method to update the ListView with vehicles, users, and rentals
+    private void updateListView() {
+        listViewItems.clear();  // Clear current list
+        // Fetch all vehicles, users, and rentals from the database
+        for (Vehicle vehicle : vehicleDAO.getAllVehicles()) {
+            listViewItems.add("Vehicle: " + vehicle.getModel() + " - " + vehicle.getLicensePlate());
+        }
+        for (User user : userDAO.getAllUsers()) {
+            listViewItems.add("User: " + user.getName() + " - ID: " + user.getId());
+        }
+        for (Rental rental : rentalDAO.getAllRentals()) {
+            listViewItems.add("Rental: " + rental.getUser().getName() + " - Vehicle: " + rental.getVehicle().getModel());
+        }
+        // Update the ListView
+        listView.setItems(listViewItems);
     }
 }

@@ -9,13 +9,11 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="730.0" prefWidth="1020.0" style="-fx-background-color: #f5f5f5;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23" fx:controller="com.example.vehicle.controller.MainController">
+<AnchorPane prefHeight="730.0" prefWidth="1020.0" style="-fx-background-color: #d3d3d3;" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.vehicle.controller.MainController">
+    <Label layoutX="300.0" layoutY="7.0" prefHeight="51.0" prefWidth="356.0" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #333333;" text="       Vehicle Rental System" />
 
-    <!-- Title -->
-    <Label layoutX="300" layoutY="20" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #333333;" text="Vehicle Rental System" />
-
-    <!-- Vehicle Section -->
-    <VBox alignment="CENTER_LEFT" layoutX="325.0" layoutY="70.0" prefHeight="207.0" prefWidth="336.0" spacing="15" style="-fx-background-color: #ffffff; -fx-padding: 10; -fx-border-radius: 5; -fx-border-color: #ccc; -fx-border-width: 1;">
+    <!-- Vehicle  -->
+    <VBox alignment="CENTER_LEFT" layoutX="325.0" layoutY="70.0" prefHeight="207.0" prefWidth="336.0" spacing="15" style="-fx-background-color: #666; -fx-padding: 10; -fx-border-radius: 5; -fx-border-color: #ccc; -fx-border-width: 1;">
         <TextField fx:id="vehicleModelField" promptText="Vehicle Model" />
         <TextField fx:id="vehicleLicensePlateField" promptText="License Plate" />
         <TextField fx:id="vehiclePriceField" promptText="Price Per Day" />
@@ -25,9 +23,8 @@
             <Button fx:id="deleteVehicleButton" onAction="#handleDeleteVehicle" text="Delete Vehicle" />
         </HBox>
     </VBox>
-
-    <!-- User Section -->
-    <VBox alignment="CENTER_LEFT" layoutX="22.0" layoutY="70.0" prefHeight="207.0" prefWidth="278.0" spacing="15" style="-fx-background-color: #ffffff; -fx-padding: 10; -fx-border-radius: 5; -fx-border-color: #ccc; -fx-border-width: 1;">
+    <!-- User  -->
+    <VBox alignment="CENTER_LEFT" layoutX="22.0" layoutY="70.0" prefHeight="207.0" prefWidth="278.0" spacing="15" style="-fx-background-color: #666; -fx-padding: 10; -fx-border-radius: 5; -fx-border-color: #ccc; -fx-border-width: 1;">
         <TextField fx:id="userNameField" promptText="User Name" />
         <TextField fx:id="userIdField" promptText="User ID" />
         <HBox spacing="15">
@@ -36,9 +33,8 @@
             <Button fx:id="deleteUserButton" onAction="#handleDeleteUser" text="Delete User" />
         </HBox>
     </VBox>
-
-    <!-- Rental Section -->
-    <VBox alignment="CENTER_LEFT" layoutX="685.0" layoutY="70.0" spacing="15" style="-fx-background-color: #ffffff; -fx-padding: 10; -fx-border-radius: 5; -fx-border-color: #ccc; -fx-border-width: 1;">
+    <!-- Rental  -->
+    <VBox alignment="CENTER_LEFT" layoutX="685.0" layoutY="70.0" spacing="15" style="-fx-background-color: #666; -fx-padding: 10; -fx-border-radius: 5; -fx-border-color: #ccc; -fx-border-width: 1;">
         <TextField fx:id="rentalUserIdField" promptText="Rental User ID" />
         <TextField fx:id="rentalVehicleIdField" promptText="Rental Vehicle ID" />
         <DatePicker fx:id="startDateField" promptText="Start Date" />
@@ -49,6 +45,5 @@
             <Button fx:id="deleteRentalButton" onAction="#handleDeleteRental" text="Delete Rental" />
         </HBox>
     </VBox>
-   <ListView layoutX="22.0" layoutY="301.0" prefHeight="333.0" prefWidth="970.0" />
-
+   <ListView layoutX="24.0" layoutY="299.0" prefHeight="407.0" prefWidth="973.0" style="-fx-background-color: beige;" />
 </AnchorPane>

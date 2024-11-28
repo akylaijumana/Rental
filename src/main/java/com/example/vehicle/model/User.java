@@ -32,4 +32,8 @@ public class User {
     public void setUserID(int userID) {
         this.userID = userID;
     }
+
+    public String getId() {
+        return null;
+    }
 }
