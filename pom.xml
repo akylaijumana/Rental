@@ -7,14 +7,17 @@
     <groupId>com.example</groupId>
     <artifactId>Vehicle</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <name>Vehicle</name>
+    <name>Rental</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <junit.version>5.9.2</junit.version>
+        <junit.version>5.10.2</junit.version>
+        <java.version>17</java.version> <!-- Ensure this is set to Java 17 or 23 based on your environment -->
     </properties>
 
     <dependencies>
+
+        <!-- JavaFX Dependencies -->
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
@@ -26,6 +29,7 @@
             <version>17.0.6</version>
         </dependency>
 
+        <!-- JUnit Dependencies for Testing -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
@@ -33,36 +37,41 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <version>42.6.0</version>
-        </dependency>
-        <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
+
+        <!-- PostgreSQL JDBC Driver -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.6.0</version> <!-- PostgreSQL JDBC driver version -->
+        </dependency>
+
     </dependencies>
 
     <build>
         <plugins>
+            <!-- Compiler Plugin for Java 17 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.11.0</version>
+                <version>3.13.0</version>
                 <configuration>
-                    <source>17</source>
+                    <source>17</source> <!-- Ensure this matches your Java version -->
                     <target>17</target>
                 </configuration>
             </plugin>
+
+            <!-- JavaFX Maven Plugin -->
             <plugin>
                 <groupId>org.openjfx</groupId>
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.8</version>
                 <executions>
                     <execution>
-                        <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
                             <mainClass>com.example.vehicle/com.example.vehicle.HelloApplication</mainClass>
@@ -78,4 +87,5 @@
             </plugin>
         </plugins>
     </build>
+
 </project>

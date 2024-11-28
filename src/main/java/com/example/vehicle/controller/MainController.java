@@ -1,4 +1,4 @@
-package com.example.vehicle;
+package com.example.vehicle.controller;
 
 import com.example.vehicle.dao.VehicleDAO;
 import com.example.vehicle.dao.UserDAO;

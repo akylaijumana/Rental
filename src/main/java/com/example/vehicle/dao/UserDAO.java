@@ -14,6 +14,7 @@ public class UserDAO {
             ps.setInt(1, userId);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
+                    // Map the result set to a User object
                     return new User(
                             rs.getInt("userID"),
                             rs.getString("name")
@@ -22,6 +23,9 @@ public class UserDAO {
                     return null;  // User not found
                 }
             }
+        } catch (SQLException e) {
+            // Log or rethrow the exception as needed
+            throw new SQLException("Error fetching user with ID " + userId, e);
         }
     }
 
@@ -34,6 +38,7 @@ public class UserDAO {
             int rowsAffected = ps.executeUpdate();
 
             if (rowsAffected > 0) {
+                // Get the generated userID (assuming auto-increment field)
                 try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
                     if (generatedKeys.next()) {
                         user.setUserID(generatedKeys.getInt(1));  // Set the generated userID
@@ -42,6 +47,9 @@ public class UserDAO {
                 }
             }
             return false;  // Return false if insertion failed
+        } catch (SQLException e) {
+            // Log or rethrow the exception as needed
+            throw new SQLException("Error inserting user", e);
         }
     }
 
@@ -54,6 +62,9 @@ public class UserDAO {
             ps.setInt(2, user.getUserID());  // Use userID for updating
             int rowsAffected = ps.executeUpdate();
             return rowsAffected > 0;  // Return true if any row was updated
+        } catch (SQLException e) {
+            // Log or rethrow the exception as needed
+            throw new SQLException("Error updating user with ID " + user.getUserID(), e);
         }
     }
 
@@ -65,6 +76,9 @@ public class UserDAO {
             ps.setInt(1, userID);  // Use userID for deleting
             int rowsAffected = ps.executeUpdate();
             return rowsAffected > 0;  // Return true if at least one row was deleted
+        } catch (SQLException e) {
+            // Log or rethrow the exception as needed
+            throw new SQLException("Error deleting user with ID " + userID, e);
         }
     }
 }
