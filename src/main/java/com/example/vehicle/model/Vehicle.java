@@ -2,13 +2,13 @@ package com.example.vehicle.model;
 
 public class Vehicle {
     private int vehicleId;
-    private String model;
+    private String type;
     private String licensePlate;
     private double pricePerDay;
 
-    public Vehicle(int vehicleId, String model, String licensePlate, double pricePerDay) {
+    public Vehicle(int vehicleId, String type, String licensePlate, double pricePerDay) {
         this.vehicleId = vehicleId;
-        this.model = model;
+        this.type = type;
         this.licensePlate = licensePlate;
         this.pricePerDay = pricePerDay;
     }
@@ -21,12 +21,12 @@ public class Vehicle {
         this.vehicleId = vehicleId;
     }
 
-    public String getModel() {
-        return model;
+    public String getType() {
+        return type;
     }
 
-    public void setModel(String model) {
-        this.model = model;
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getLicensePlate() {
