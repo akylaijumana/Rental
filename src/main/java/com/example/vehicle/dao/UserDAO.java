@@ -4,10 +4,9 @@ import com.example.vehicle.database.DBConnection;
 import com.example.vehicle.model.User;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class UserDAO {
-
-    // Get a User by their ID
     public User getUserById(int userId) throws SQLException {
         String query = "SELECT * FROM users WHERE user_id = ?";
         try (Connection conn = DBConnection.getConnection();
@@ -17,7 +16,7 @@ public class UserDAO {
                 if (rs.next()) {
                     return new User(
                             rs.getInt("user_id"),
-                            rs.getString("name")  // Fetch user name
+                            rs.getString("name")
                     );
                 } else {
                     return null;
@@ -27,8 +26,6 @@ public class UserDAO {
             throw new SQLException("Error fetching user with ID " + userId, e);
         }
     }
-
-    // Insert a new User
     public boolean insertUser(User user) throws SQLException {
         String query = "INSERT INTO users (name) VALUES (?)";
         try (Connection conn = DBConnection.getConnection();
@@ -49,8 +46,6 @@ public class UserDAO {
             throw new SQLException("Error inserting user", e);
         }
     }
-
-    // Update a User's information (by userID)
     public boolean updateUser(User user) throws SQLException {
         String query = "UPDATE users SET name = ? WHERE user_id = ?";
         try (Connection conn = DBConnection.getConnection();
@@ -63,8 +58,6 @@ public class UserDAO {
             throw new SQLException("Error updating user with ID " + user.getUserID(), e);
         }
     }
-
-    // Delete a User by userID
     public boolean deleteUser(int userID) throws SQLException {
         String query = "DELETE FROM users WHERE user_id = ?";
         try (Connection conn = DBConnection.getConnection();
@@ -76,22 +69,22 @@ public class UserDAO {
             throw new SQLException("Error deleting user with ID " + userID, e);
         }
     }
-
-    // Get all users
-    public User[] getAllUsers() throws SQLException {
-        String query = "SELECT * FROM users";
+    public List<String> getAllUsers() throws SQLException {
+        String query = "SELECT u.user_id, u.name "
+                + "FROM users u";
+        List<String> userDetails = new ArrayList<>();
         try (Connection conn = DBConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(query);
-             ResultSet rs = stmt.executeQuery()) {
-            // Dynamically create a list of User objects
-            ArrayList<User> users = new ArrayList<>();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(query)) {
             while (rs.next()) {
-                users.add(new User(
+                String userDetail = String.format("User ID: %d, Name: %s",
                         rs.getInt("user_id"),
-                        rs.getString("name")  // Fetch user name
-                ));
+                        rs.getString("name"));
+                userDetails.add(userDetail);
             }
-            return users.toArray(new User[0]);
         }
+        return userDetails;
     }
+
 }
+

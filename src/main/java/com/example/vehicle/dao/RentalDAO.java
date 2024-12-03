@@ -10,9 +10,8 @@ import java.util.List;
 
 public class RentalDAO {
 
-    // Get a rental by its ID
     public Rental getRentalById(int rentalId) throws SQLException {
-        String query = "SELECT r.rental_id, r.start_date, r.end_date, r.total_cost, u.name AS user_name, v.type AS vehicle_type "
+        String query = "SELECT r.rental_id, r.start_date, r.end_date, r.total_cost, u.user_name AS user_name, v.type AS vehicle_type "
                 + "FROM rentals r "
                 + "JOIN users u ON r.user_id = u.user_id "
                 + "JOIN vehicles v ON r.vehicle_id = v.vehicle_id "
@@ -25,10 +24,9 @@ public class RentalDAO {
                 String userName = rs.getString("user_name");
                 String vehicleType = rs.getString("vehicle_type");
 
-                // Create and return a Rental object with the necessary details
                 return new Rental(
                         rs.getInt("rental_id"),
-                        new User(rs.getInt("user_id"), userName), // Create a User object with user name
+                        new User(rs.getInt("user_id"), userName),
                         new Vehicle(rs.getInt("vehicle_id"), vehicleType, rs.getString("license_plate"), rs.getDouble("price_per_day")),
                         rs.getDate("start_date"),
                         rs.getDate("end_date"),
@@ -38,8 +36,6 @@ public class RentalDAO {
         }
         return null;
     }
-
-    // Add a rental
     public boolean addRental(Rental rental) throws SQLException {
         String query = "INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, total_cost) VALUES (?, ?, ?, ?, ?)";
         try (Connection conn = DBConnection.getConnection();
@@ -52,8 +48,6 @@ public class RentalDAO {
             return stmt.executeUpdate() > 0;
         }
     }
-
-    // Update a rental
     public boolean updateRental(Rental rental) throws SQLException {
         String query = "UPDATE rentals SET user_id = ?, vehicle_id = ?, start_date = ?, end_date = ?, total_cost = ? WHERE rental_id = ?";
         try (Connection conn = DBConnection.getConnection();
@@ -67,8 +61,6 @@ public class RentalDAO {
             return stmt.executeUpdate() > 0;
         }
     }
-
-    // Delete a rental
     public boolean deleteRental(int rentalId) throws SQLException {
         String query = "DELETE FROM rentals WHERE rental_id = ?";
         try (Connection conn = DBConnection.getConnection();
@@ -77,10 +69,8 @@ public class RentalDAO {
             return stmt.executeUpdate() > 0;
         }
     }
-
-    // Get all rentals with details (user name and vehicle type)
-    public List<String> getAllRentalsWithDetails() throws SQLException {
-        String query = "SELECT r.rental_id, r.start_date, r.end_date, r.total_cost, u.name AS user_name, v.type AS vehicle_type "
+    public List<String> getAllRentals() throws SQLException {
+        String query = "SELECT r.rental_id, r.start_date, r.end_date, r.total_cost, u.user_name AS user_name, v.type AS vehicle_type "
                 + "FROM rentals r "
                 + "JOIN users u ON r.user_id = u.user_id "
                 + "JOIN vehicles v ON r.vehicle_id = v.vehicle_id";
