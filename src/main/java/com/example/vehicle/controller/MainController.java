@@ -67,7 +67,7 @@ public class MainController {
         String licensePlate = vehicleLicensePlateField.getText();
         double pricePerDay = Double.parseDouble(vehiclePriceField.getText());
 
-        Vehicle vehicle = new Vehicle(0, typeName, licensePlate, pricePerDay);
+        Vehicle vehicle = new Vehicle(0, 0, typeName, licensePlate, pricePerDay);
         try {
             if (vehicleDAO.addVehicle(vehicle)) {
                 updateListView();
@@ -79,26 +79,33 @@ public class MainController {
             System.out.println("Error adding vehicle: " + e.getMessage());
         }
     }
-
-    // Handle Update Vehicle
     @FXML
     public void handleUpdateVehicle() {
-        int vehicleId = Integer.parseInt(vehicleLicensePlateField.getText());
-        String typeName = vehicleTypeField.getText();
-        String licensePlate = vehicleLicensePlateField.getText();
-        double pricePerDay = Double.parseDouble(vehiclePriceField.getText());
-
-        Vehicle vehicle = new Vehicle(vehicleId, typeName, licensePlate, pricePerDay);
         try {
+            // Parse the input fields
+            int vehicleId = Integer.parseInt(vehicleLicensePlateField.getText());
+            String typeName = vehicleTypeField.getText();
+            String licensePlate = vehicleLicensePlateField.getText();
+            double pricePerDay = Double.parseDouble(vehiclePriceField.getText());
+
+            int typeId = vehicleDAO.getTypeIdByTypeName(typeName);
+
+            // Create a Vehicle object
+            Vehicle vehicle = new Vehicle(vehicleId, typeId, typeName, licensePlate, pricePerDay);
+
+            // Update the vehicle using DAO
             if (vehicleDAO.updateVehicle(vehicle)) {
-                updateListView();
+                updateListView(); // Refresh the UI
             } else {
                 System.out.println("Failed to update vehicle.");
             }
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid input format: " + e.getMessage());
         } catch (SQLException e) {
             System.out.println("Error updating vehicle: " + e.getMessage());
         }
     }
+
 
     // Handle Delete Vehicle
     @FXML
@@ -170,35 +177,52 @@ public class MainController {
     // Handle Add Rental
     @FXML
     public void handleAddRental() {
-        int userId = Integer.parseInt(rentalUserIdField.getText());
-        int vehicleId = Integer.parseInt(rentalVehicleIdField.getText());
-        String startDateStr = startDateField.getValue().toString();
-        String endDateStr = endDateField.getValue().toString();
-
         try {
-            // Fetch the User and Vehicle objects from the database
-            User user = userDAO.getUserById(userId);  // Assuming you have a method like this
-            Vehicle vehicle = vehicleDAO.getVehicleById(vehicleId);  // Assuming you have a method like this
+            int userId = Integer.parseInt(rentalUserIdField.getText());
+            int vehicleId = Integer.parseInt(rentalVehicleIdField.getText());
+            String startDateStr = startDateField.getValue().toString();
+            String endDateStr = endDateField.getValue().toString();
 
-            // Convert String dates to Date objects
+            User user = userDAO.getUserById(userId);
+            Vehicle vehicle = vehicleDAO.getVehicleById(vehicleId);
+
+            if (user == null) {
+                System.out.println("Error: User with ID " + userId + " not found.");
+                return;
+            }
+            if (vehicle == null) {
+                System.out.println("Error: Vehicle with ID " + vehicleId + " not found.");
+                return;
+            }
+
             java.util.Date startDate = java.sql.Date.valueOf(startDateStr);
             java.util.Date endDate = java.sql.Date.valueOf(endDateStr);
 
-            // Calculate total cost (example calculation)
-            double totalCost = vehicle.getPricePerDay() * (endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24); // simple day calculation
+            long durationInMillis = endDate.getTime() - startDate.getTime();
+            if (durationInMillis <= 0) {
+                System.out.println("Error: End date must be after start date.");
+                return;
+            }
 
-            // Now create the Rental object
+            long days = durationInMillis / (1000 * 60 * 60 * 24);
+            double totalCost = vehicle.getPricePerDay() * days;
+
             Rental rental = new Rental(0, user, vehicle, startDate, endDate, totalCost);
 
-            // Add the rental using your DAO
             if (rentalDAO.addRental(rental)) {
+                System.out.println("Rental added successfully: " + rental);
                 updateListView();
                 clearRentalFields();
             } else {
-                System.out.println("Failed to add rental.");
+                System.out.println("Failed to add rental. Please check DAO implementation.");
             }
+        } catch (NumberFormatException e) {
+            System.out.println("Error: Invalid input format. " + e.getMessage());
         } catch (SQLException e) {
             System.out.println("Error adding rental: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Unexpected error: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -212,21 +236,16 @@ public class MainController {
         String endDateStr = endDateField.getValue().toString();
 
         try {
-            // Fetch the User and Vehicle objects from the database
             User user = userDAO.getUserById(userId);
             Vehicle vehicle = vehicleDAO.getVehicleById(vehicleId);
 
-            // Convert String dates to Date objects
             java.util.Date startDate = java.sql.Date.valueOf(startDateStr);
             java.util.Date endDate = java.sql.Date.valueOf(endDateStr);
 
-            // Calculate total cost (example calculation)
             double totalCost = vehicle.getPricePerDay() * (endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24); // simple day calculation
 
-            // Now create the Rental object
             Rental rental = new Rental(rentalId, user, vehicle, startDate, endDate, totalCost);
 
-            // Update the rental using your DAO
             if (rentalDAO.updateRental(rental)) {
                 updateListView();
             } else {
@@ -276,7 +295,6 @@ public class MainController {
         }
     }
 
-    // Clear fields after adding/updating data
     private void clearVehicleFields() {
         vehicleTypeField.clear();
         vehicleLicensePlateField.clear();

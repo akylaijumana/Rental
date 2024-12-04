@@ -16,7 +16,7 @@ public class UserDAO {
                 if (rs.next()) {
                     return new User(
                             rs.getInt("user_id"),
-                            rs.getString("name")
+                            rs.getString("user_name")
                     );
                 } else {
                     return null;
@@ -27,10 +27,11 @@ public class UserDAO {
         }
     }
     public boolean insertUser(User user) throws SQLException {
-        String query = "INSERT INTO users (name) VALUES (?)";
+        String query = "INSERT INTO users (user_name) VALUES (?)";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, user.getName());
+            ps.setInt(1, user.getUserID());
             int rowsAffected = ps.executeUpdate();
 
             if (rowsAffected > 0) {
@@ -47,7 +48,7 @@ public class UserDAO {
         }
     }
     public boolean updateUser(User user) throws SQLException {
-        String query = "UPDATE users SET name = ? WHERE user_id = ?";
+        String query = "UPDATE users SET user_name = ? WHERE user_id = ?";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setString(1, user.getName());
@@ -70,7 +71,7 @@ public class UserDAO {
         }
     }
     public List<String> getAllUsers() throws SQLException {
-        String query = "SELECT u.user_id, u.name "
+        String query = "SELECT u.user_id, u.user_name "
                 + "FROM users u";
         List<String> userDetails = new ArrayList<>();
         try (Connection conn = DBConnection.getConnection();
@@ -79,7 +80,7 @@ public class UserDAO {
             while (rs.next()) {
                 String userDetail = String.format("User ID: %d, Name: %s",
                         rs.getInt("user_id"),
-                        rs.getString("name"));
+                        rs.getString("user_name"));
                 userDetails.add(userDetail);
             }
         }

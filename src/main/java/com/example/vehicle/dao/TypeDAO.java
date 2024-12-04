@@ -2,6 +2,7 @@ package com.example.vehicle.dao;
 
 import com.example.vehicle.database.DBConnection;
 import com.example.vehicle.model.TypeVehicle;
+
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -17,9 +18,10 @@ public class TypeDAO {
             if (rs.next()) {
                 return new TypeVehicle(
                         rs.getInt("type_id"),
+                        0, // Placeholder for vehicleId, not applicable in this context
                         rs.getString("type_name"),
-                        null,  // Not used in this case, as it's not specific to each vehicle
-                        0    // Placeholder for pricePerDay, not applicable here
+                        null, // Placeholder for licensePlate
+                        0 // Placeholder for pricePerDay
                 );
             }
         }
@@ -70,12 +72,33 @@ public class TypeDAO {
             while (rs.next()) {
                 typeVehicles.add(new TypeVehicle(
                         rs.getInt("type_id"),
+                        0, // Placeholder for vehicleId, not applicable in this context
                         rs.getString("type_name"),
-                        null,  // Not applicable
-                        0      // Not applicable
+                        null, // Placeholder for licensePlate
+                        0 // Placeholder for pricePerDay
                 ));
             }
             return typeVehicles;
         }
+    }
+
+    // Get a TypeVehicle by typeId
+    public TypeVehicle getTypeById(int typeId) throws SQLException {
+        String query = "SELECT * FROM type_vehicle WHERE type_id = ?";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setInt(1, typeId);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return new TypeVehicle(
+                        rs.getInt("type_id"),
+                        0, // Placeholder for vehicleId
+                        rs.getString("type_name"),
+                        null, // Placeholder for licensePlate
+                        0 // Placeholder for pricePerDay
+                );
+            }
+        }
+        return null;
     }
 }

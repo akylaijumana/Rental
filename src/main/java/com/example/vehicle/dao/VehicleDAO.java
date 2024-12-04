@@ -12,19 +12,29 @@ public class VehicleDAO {
     private TypeDAO typeVehicleDAO = new TypeDAO();
 
     public Vehicle getVehicleById(int vehicleId) throws SQLException {
-        String query = "SELECT * FROM vehicles WHERE vehicle_id = ?";
+        String query = "SELECT v.vehicle_id, v.price_per_day,v.type_id, t.type_name "
+                + "FROM vehicles v "
+                + "JOIN type_vehicle t ON v.type_id = t.type_id "
+                + "WHERE v.vehicle_id = ?";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setInt(1, vehicleId);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    TypeVehicle type = typeVehicleDAO.getTypeByName(rs.getString("type_name"));
+                    TypeVehicle type = typeVehicleDAO.getTypeByName(
+                            rs.getString("type_name"));
+                            rs.getInt("type_id");
+
                     return new Vehicle(
+                            rs.getInt("type_id"),
                             rs.getInt("vehicle_id"),
                             type.getTypeName(),
                             rs.getString("license_plate"),
                             rs.getDouble("price_per_day")
+
                     );
+                } else {
+                    System.out.println("Error: Vehicle with ID " + vehicleId + " not found.");
                 }
             }
         }
@@ -35,6 +45,7 @@ public class VehicleDAO {
         String query = "INSERT INTO vehicles (type_name, license_plate, price_per_day) VALUES (?, ?, ?)";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+            stmt.setInt(4,vehicle.getTypeId());
             stmt.setString(1, vehicle.getTypeName());
             stmt.setString(2, vehicle.getLicensePlate());
             stmt.setDouble(3, vehicle.getPricePerDay());
@@ -89,6 +100,18 @@ public class VehicleDAO {
             }
         }
         return vehicleDetails;
+    }
+    public int getTypeIdByTypeName(String typeName) throws SQLException {
+        String query = "SELECT type_id FROM type_vehicle WHERE type_name = ?";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, typeName);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("type_id");
+            }
+        }
+        throw new SQLException("Type not found for name: " + typeName);
     }
 
 }

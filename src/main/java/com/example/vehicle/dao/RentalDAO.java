@@ -4,6 +4,7 @@ import com.example.vehicle.database.DBConnection;
 import com.example.vehicle.model.Rental;
 import com.example.vehicle.model.User;
 import com.example.vehicle.model.Vehicle;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,23 +12,29 @@ import java.util.List;
 public class RentalDAO {
 
     public Rental getRentalById(int rentalId) throws SQLException {
-        String query = "SELECT r.rental_id, r.start_date, r.end_date, r.total_cost, u.user_name AS user_name, v.type AS vehicle_type "
-                + "FROM rentals r "
-                + "JOIN users u ON r.user_id = u.user_id "
-                + "JOIN vehicles v ON r.vehicle_id = v.vehicle_id "
-                + "WHERE r.rental_id = ?";
+        String query = "SELECT r.rental_id, r.start_date, r.end_date, r.total_cost, u.user_name AS user_name, " +
+                "v.vehicle_id, v.type_id, v.type_name, v.license_plate, v.price_per_day " +
+                "FROM rentals r " +
+                "JOIN users u ON r.user_id = u.user_id " +
+                "JOIN vehicles v ON r.vehicle_id = v.vehicle_id " +
+                "WHERE r.rental_id = ?";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setInt(1, rentalId);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 String userName = rs.getString("user_name");
-                String vehicleType = rs.getString("vehicle_type");
 
                 return new Rental(
                         rs.getInt("rental_id"),
                         new User(rs.getInt("user_id"), userName),
-                        new Vehicle(rs.getInt("vehicle_id"), vehicleType, rs.getString("license_plate"), rs.getDouble("price_per_day")),
+                        new Vehicle(
+                                rs.getInt("vehicle_id"),
+                                rs.getInt("type_id"),
+                                rs.getString("type_name"),
+                                rs.getString("license_plate"),
+                                rs.getDouble("price_per_day")
+                        ),
                         rs.getDate("start_date"),
                         rs.getDate("end_date"),
                         rs.getDouble("total_cost")
@@ -36,6 +43,7 @@ public class RentalDAO {
         }
         return null;
     }
+
     public boolean addRental(Rental rental) throws SQLException {
         String query = "INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, total_cost) VALUES (?, ?, ?, ?, ?)";
         try (Connection conn = DBConnection.getConnection();
@@ -48,6 +56,7 @@ public class RentalDAO {
             return stmt.executeUpdate() > 0;
         }
     }
+
     public boolean updateRental(Rental rental) throws SQLException {
         String query = "UPDATE rentals SET user_id = ?, vehicle_id = ?, start_date = ?, end_date = ?, total_cost = ? WHERE rental_id = ?";
         try (Connection conn = DBConnection.getConnection();
@@ -61,6 +70,7 @@ public class RentalDAO {
             return stmt.executeUpdate() > 0;
         }
     }
+
     public boolean deleteRental(int rentalId) throws SQLException {
         String query = "DELETE FROM rentals WHERE rental_id = ?";
         try (Connection conn = DBConnection.getConnection();
@@ -69,11 +79,13 @@ public class RentalDAO {
             return stmt.executeUpdate() > 0;
         }
     }
+
     public List<String> getAllRentals() throws SQLException {
-        String query = "SELECT r.rental_id, r.start_date, r.end_date, r.total_cost, u.user_name AS user_name, v.type AS vehicle_type "
-                + "FROM rentals r "
-                + "JOIN users u ON r.user_id = u.user_id "
-                + "JOIN vehicles v ON r.vehicle_id = v.vehicle_id";
+        String query = "SELECT r.rental_id, r.start_date, r.end_date, r.total_cost, u.user_name AS user_name, " +
+                "v.type_name AS vehicle_type " +
+                "FROM rentals r " +
+                "JOIN users u ON r.user_id = u.user_id " +
+                "JOIN vehicles v ON r.vehicle_id = v.vehicle_id";
         List<String> rentalsDetails = new ArrayList<>();
         try (Connection conn = DBConnection.getConnection();
              Statement stmt = conn.createStatement();
