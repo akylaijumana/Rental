@@ -10,8 +10,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="566.0" prefWidth="1159.0" style="-fx-background-color: pink;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23" fx:controller="com.example.vehicle.controller.MainController">
-    <VBox alignment="CENTER_LEFT" layoutX="403.0" layoutY="81.0" prefHeight="207.0" prefWidth="336.0" spacing="15" style="-fx-background-color: #666; -fx-padding: 10; -fx-border-radius: 5; -fx-border-color: #ccc; -fx-border-width: 1;" AnchorPane.bottomAnchor="308.00000000000006" AnchorPane.leftAnchor="403.0" AnchorPane.rightAnchor="419.79999999999995" AnchorPane.topAnchor="81.0">
+<AnchorPane prefHeight="566.0" prefWidth="1159.0" style="-fx-background-color: pink;" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.vehicle.controller.MainController">
+    <VBox alignment="CENTER_LEFT" layoutX="404.0" layoutY="81.0" prefHeight="246.0" prefWidth="334.0" spacing="15" style="-fx-background-color: #666; -fx-padding: 10; -fx-border-radius: 5; -fx-border-color: #ccc; -fx-border-width: 1;" AnchorPane.bottomAnchor="270.20000000000005" AnchorPane.leftAnchor="404.0" AnchorPane.rightAnchor="420.79999999999995" AnchorPane.topAnchor="81.0">
+        <TextField fx:id="vehicleIdField" promptText="vehicle id" />
         <TextField fx:id="vehicleTypeField" promptText="Select Type" />
         <TextField fx:id="vehicleLicensePlateField" promptText="License Plate" />
         <TextField fx:id="vehiclePriceField" promptText="Price Per Day" />
@@ -21,7 +22,7 @@
             <Button fx:id="deleteVehicleButton" onAction="#handleDeleteVehicle" text="Delete Vehicle" />
         </HBox>
     </VBox>
-    <VBox alignment="CENTER_LEFT" layoutX="29.0" layoutY="81.0" prefHeight="207.0" prefWidth="336.0" spacing="15" style="-fx-background-color: #666; -fx-padding: 10; -fx-border-radius: 5; -fx-border-color: #ccc; -fx-border-width: 1;" AnchorPane.bottomAnchor="308.00000000000006" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="792.5999999999999" AnchorPane.topAnchor="81.0">
+    <VBox alignment="CENTER_LEFT" layoutX="32.0" layoutY="81.0" prefHeight="215.0" prefWidth="336.0" spacing="15" style="-fx-background-color: #666; -fx-padding: 10; -fx-border-radius: 5; -fx-border-color: #ccc; -fx-border-width: 1;" AnchorPane.bottomAnchor="270.0" AnchorPane.leftAnchor="32.0" AnchorPane.rightAnchor="791.0" AnchorPane.topAnchor="81.0">
         <TextField fx:id="userNameField" promptText="User Name" />
         <TextField fx:id="userIdField" promptText="User ID" />
         <HBox spacing="15">
@@ -30,7 +31,7 @@
             <Button fx:id="deleteUserButton" onAction="#handleDeleteUser" text="Delete User" />
         </HBox>
     </VBox>
-    <VBox alignment="CENTER_LEFT" layoutX="779.0" layoutY="79.0" prefHeight="207.0" prefWidth="336.0" spacing="15" style="-fx-background-color: #666; -fx-padding: 10; -fx-border-radius: 5; -fx-border-color: #ccc; -fx-border-width: 1;" AnchorPane.bottomAnchor="305.59999999999997" AnchorPane.leftAnchor="779.0" AnchorPane.rightAnchor="43.799999999999955" AnchorPane.topAnchor="79.0">
+    <VBox alignment="CENTER_LEFT" layoutX="779.0" layoutY="79.0" prefHeight="215.0" prefWidth="336.0" spacing="15" style="-fx-background-color: #666; -fx-padding: 10; -fx-border-radius: 5; -fx-border-color: #ccc; -fx-border-width: 1;" AnchorPane.bottomAnchor="272.0" AnchorPane.leftAnchor="779.0" AnchorPane.rightAnchor="44.0" AnchorPane.topAnchor="79.0">
         <TextField fx:id="rentalUserIdField" promptText="User ID" />
         <TextField fx:id="rentalVehicleIdField" promptText="Vehicle ID" />
         <DatePicker fx:id="startDateField" promptText="Start Date" />
@@ -41,9 +42,9 @@
             <Button fx:id="deleteRentalButton" onAction="#handleDeleteRental" text="Delete Rental" />
         </HBox>
     </VBox>
-    <ListView fx:id="vehicleListView" layoutX="403.0" layoutY="323.0" prefHeight="200.0" prefWidth="336.0" style="-fx-background-color: beige;" AnchorPane.bottomAnchor="72.80000000000001" AnchorPane.leftAnchor="403.0" AnchorPane.rightAnchor="419.79999999999995" AnchorPane.topAnchor="323.0" />
-    <ListView fx:id="userListView" layoutX="29.0" layoutY="323.0" prefHeight="200.0" prefWidth="336.0" style="-fx-background-color: beige;" AnchorPane.bottomAnchor="72.80000000000001" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="792.5999999999999" AnchorPane.topAnchor="323.0" />
-    <ListView fx:id="rentalListView" layoutX="779.0" layoutY="323.0" prefHeight="200.0" prefWidth="336.0" style="-fx-background-color: beige;" AnchorPane.bottomAnchor="72.80000000000001" AnchorPane.leftAnchor="779.0" AnchorPane.rightAnchor="43.799999999999955" AnchorPane.topAnchor="323.0" />
+    <ListView fx:id="vehicleListView" layoutX="403.0" layoutY="320.0" prefHeight="208.0" prefWidth="336.0" style="-fx-background-color: beige;" AnchorPane.bottomAnchor="38.0" AnchorPane.leftAnchor="403.0" AnchorPane.rightAnchor="420.0" AnchorPane.topAnchor="320.0" />
+    <ListView fx:id="userListView" layoutX="24.0" layoutY="320.0" prefHeight="208.0" prefWidth="343.0" style="-fx-background-color: beige;" AnchorPane.bottomAnchor="38.0" AnchorPane.leftAnchor="24.0" AnchorPane.rightAnchor="792.0" AnchorPane.topAnchor="320.0" />
+    <ListView fx:id="rentalListView" layoutX="779.0" layoutY="320.0" prefHeight="208.0" prefWidth="336.0" style="-fx-background-color: beige;" AnchorPane.bottomAnchor="38.0" AnchorPane.leftAnchor="779.0" AnchorPane.rightAnchor="44.0" AnchorPane.topAnchor="320.0" />
     <Label layoutX="388.0" layoutY="8.0" prefHeight="55.0" prefWidth="371.0" text="      Vehicle Rental System">
         <font>
             <Font size="27.0" />

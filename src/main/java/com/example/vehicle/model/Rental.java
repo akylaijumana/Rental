@@ -66,4 +66,16 @@ public class Rental {
     public void setTotalCost(double totalCost) {
         this.totalCost = totalCost;
     }
+
+    @Override
+    public String toString() {
+        return "Rental{" +
+                "rentalId=" + rentalId +
+                ", user=" + user +
+                ", vehicle=" + vehicle +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", totalCost=" + totalCost +
+                '}';
+    }
 }

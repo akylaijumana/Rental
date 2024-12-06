@@ -1,14 +1,13 @@
 package com.example.vehicle.model;
 
 public class Vehicle {
-    private int typeId;
     private int vehicleId;
     private String typeName;
     private String licensePlate;
     private double pricePerDay;
 
-    public Vehicle(int  typeId, int vehicleId, String typeName, String licensePlate, double pricePerDay) {
-        this.typeId = typeId;
+    public Vehicle( int vehicleId, String typeName, String licensePlate, double pricePerDay) {
+
         this.vehicleId = vehicleId;
         this.typeName = typeName;
         this.licensePlate = licensePlate;
@@ -25,14 +24,6 @@ public class Vehicle {
 
     public String getTypeName() {
         return typeName;
-    }
-
-    public int getTypeId() {
-        return typeId;
-    }
-
-    public void setTypeId(int typeId) {
-        this.typeId = typeId;
     }
 
     public void setTypeName(String typeName) {
@@ -53,5 +44,15 @@ public class Vehicle {
 
     public void setPricePerDay(double pricePerDay) {
         this.pricePerDay = pricePerDay;
+    }
+
+    @Override
+    public String toString() {
+        return "Vehicle{" +
+                ", vehicleId=" + vehicleId +
+                ", typeName='" + typeName + '\'' +
+                ", licensePlate='" + licensePlate + '\'' +
+                ", pricePerDay=" + pricePerDay +
+                '}';
     }
 }

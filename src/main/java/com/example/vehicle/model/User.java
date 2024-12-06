@@ -31,4 +31,12 @@ public class User {
     public String getId() {
         return null;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "name='" + name + '\'' +
+                ", userID=" + userID +
+                '}';
+    }
 }

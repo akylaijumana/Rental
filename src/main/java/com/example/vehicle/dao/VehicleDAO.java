@@ -2,67 +2,57 @@ package com.example.vehicle.dao;
 
 import com.example.vehicle.database.DBConnection;
 import com.example.vehicle.model.Vehicle;
-import com.example.vehicle.model.TypeVehicle;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class VehicleDAO {
-    private TypeDAO typeVehicleDAO = new TypeDAO();
 
     public Vehicle getVehicleById(int vehicleId) throws SQLException {
-        String query = "SELECT v.vehicle_id, v.price_per_day,v.type_id, t.type_name "
+        String query = "SELECT v.vehicle_id, v.price_per_day, v.type_name, v.license_plate "
                 + "FROM vehicles v "
-                + "JOIN type_vehicle t ON v.type_id = t.type_id "
                 + "WHERE v.vehicle_id = ?";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
-            stmt.setInt(1, vehicleId);
+            stmt.setInt(1, vehicleId);  // Setting the vehicle ID parameter
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    TypeVehicle type = typeVehicleDAO.getTypeByName(
-                            rs.getString("type_name"));
-                            rs.getInt("type_id");
-
                     return new Vehicle(
-                            rs.getInt("type_id"),
                             rs.getInt("vehicle_id"),
-                            type.getTypeName(),
+                            rs.getString("type_name"),
                             rs.getString("license_plate"),
                             rs.getDouble("price_per_day")
-
                     );
-                } else {
-                    System.out.println("Error: Vehicle with ID " + vehicleId + " not found.");
                 }
             }
         }
-        return null;
+        return null; // If no vehicle is found
     }
 
-    public boolean addVehicle(Vehicle vehicle) throws SQLException {
-        String query = "INSERT INTO vehicles (type_name, license_plate, price_per_day) VALUES (?, ?, ?)";
+    // Add a new vehicle to the database
+    public int addVehicle(Vehicle vehicle) throws SQLException {
+        String query = "INSERT INTO vehicles (vehicle_id, type_name, license_plate, price_per_day) VALUES (?, ?, ?, ?)";
         try (Connection conn = DBConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
-            stmt.setInt(4,vehicle.getTypeId());
-            stmt.setString(1, vehicle.getTypeName());
-            stmt.setString(2, vehicle.getLicensePlate());
-            stmt.setDouble(3, vehicle.getPricePerDay());
-            int rowsAffected = stmt.executeUpdate();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
 
-            if (rowsAffected > 0) {
-                try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
-                    if (generatedKeys.next()) {
-                        vehicle.setVehicleId(generatedKeys.getInt(1));
-                        return true;
-                    }
-                }
-            }
-            return false;
+            // Set the user-provided vehicle_id and other fields
+            stmt.setInt(1, vehicle.getVehicleId());
+            stmt.setString(2, vehicle.getTypeName());
+            stmt.setString(3, vehicle.getLicensePlate());
+            stmt.setDouble(4, vehicle.getPricePerDay());
+
+            int rowsAffected = stmt.executeUpdate();
+            return (rowsAffected > 0) ? vehicle.getVehicleId() : 0; // Return the vehicle ID if successful
+        } catch (SQLException e) {
+            System.out.println("SQL error: " + e.getMessage());
+            throw e;
         }
     }
 
+
+
+    // Update an existing vehicle
     public boolean updateVehicle(Vehicle vehicle) throws SQLException {
         String query = "UPDATE vehicles SET type_name = ?, license_plate = ?, price_per_day = ? WHERE vehicle_id = ?";
         try (Connection conn = DBConnection.getConnection();
@@ -71,47 +61,40 @@ public class VehicleDAO {
             stmt.setString(2, vehicle.getLicensePlate());
             stmt.setDouble(3, vehicle.getPricePerDay());
             stmt.setInt(4, vehicle.getVehicleId());
-            return stmt.executeUpdate() > 0;
+            return stmt.executeUpdate() > 0; // Return true if at least one row is updated
         }
     }
 
+    // Delete a vehicle by its ID
     public boolean deleteVehicle(int vehicleId) throws SQLException {
         String query = "DELETE FROM vehicles WHERE vehicle_id = ?";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setInt(1, vehicleId);
-            return stmt.executeUpdate() > 0;
+            return stmt.executeUpdate() > 0; // Return true if at least one row is deleted
         }
     }
-    public List<String> getAllVehicles() throws SQLException {
+
+    // Retrieve all vehicles
+    public List<Vehicle> getAllVehicles() throws SQLException {
         String query = "SELECT v.vehicle_id, v.type_name, v.license_plate, v.price_per_day "
-                + "FROM vehicles v";
-        List<String> vehicleDetails = new ArrayList<>();
+                + "FROM vehicles v ";
+
+        List<Vehicle> vehicles = new ArrayList<>();
         try (Connection conn = DBConnection.getConnection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(query)) {
             while (rs.next()) {
-                String vehicleDetail = String.format("Vehicle ID: %d, Type: %s, License Plate: %s, Price Per Day: %.2f",
+                Vehicle vehicle = new Vehicle(
                         rs.getInt("vehicle_id"),
                         rs.getString("type_name"),
                         rs.getString("license_plate"),
-                        rs.getDouble("price_per_day"));
-                vehicleDetails.add(vehicleDetail);
+                        rs.getDouble("price_per_day")
+                );
+                vehicles.add(vehicle);
             }
         }
-        return vehicleDetails;
-    }
-    public int getTypeIdByTypeName(String typeName) throws SQLException {
-        String query = "SELECT type_id FROM type_vehicle WHERE type_name = ?";
-        try (Connection conn = DBConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(query)) {
-            stmt.setString(1, typeName);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                return rs.getInt("type_id");
-            }
-        }
-        throw new SQLException("Type not found for name: " + typeName);
+        return vehicles;
     }
 
-}
+        }
