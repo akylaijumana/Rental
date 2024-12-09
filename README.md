@@ -36,6 +36,7 @@ Jumanazarova Akylai
 
 ``Roles of Group Members``
 Jumanazarova Akylai:
+
 ``Project Developer:``
 Designed and implemented the JavaFX user interface, including input forms and ListView components.
 
@@ -58,4 +59,66 @@ Documented weekly progress, challenges, and solutions.
 
 UML Class Diagram
 The UML Class Diagram illustrates the system's structure, including relationships between the Vehicle, User, and Rental classes and their respective DAO classes.
+
++------------------+
+|      Vehicle     |
++------------------+
+| - id: int        |
+| - type: String   |
+| - licensePlate: String |
+| - pricePerDay: double  |
++------------------+
+| + getDetails(): String |
+| + calculateRentalCost(days: int): double |
++------------------+
+
++------------------+
+|       User       |
++------------------+
+| - id: int        |
+| - name: String   |
+| - email: String  |
+| - phoneNumber: String |
++------------------+
+| + getDetails(): String |
++------------------+
+
++------------------+
+|      Rental      |
++------------------+
+| - id: int        |
+| - userId: int    |
+| - vehicleId: int |
+| - startDate: Date |
+| - endDate: Date  |
+| - totalCost: double |
++------------------+
+| + calculateCost(): double |
+| + getDetails(): String    |
++------------------+
+
++------------------+
+|    VehicleDAO    |
++------------------+
+| + create(vehicle: Vehicle): void  |
+| + read(id: int): Vehicle          |
+| + update(vehicle: Vehicle): void  |
+| + delete(id: int): void           |
++------------------+
+
++------------------+
+|     UserDAO      |
++------------------+
+| + create(user: User): void        |
+| + read(id: int): User             |
+| + update(user: User): void        |
+| + delete(id: int): void           |
++------------------+
+
++------------------+
+|    RentalDAO     |
++------------------+
+| + create(rental: Rental): void    |
+| + read(id: int): Rental
+
 
