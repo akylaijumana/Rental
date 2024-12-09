@@ -4,8 +4,10 @@
 
 The Vehicle Rental Management System is a robust application designed to manage
 vehicles, users, and rental records efficiently.
+
 The system enables users to perform CRUD (Create, Read, Update, Delete) 
 operations on vehicles, users, and rentals while calculating rental costs dynamically.
+
 Built with JavaFX for the user interface and PostgreSQL for the database, this project employs the MVC architecture to ensure clean, modular, and maintainable code.
 
 ````Project Requirements List````
@@ -36,15 +38,20 @@ Jumanazarova Akylai
 Jumanazarova Akylai:
 ``Project Developer:``
 Designed and implemented the JavaFX user interface, including input forms and ListView components.
+
 Developed backend logic with DAO classes for interacting with the PostgreSQL database.
+
 ``Database Architect:``
 Designed the PostgreSQL schema, including tables for vehicles, users, and rentals.
 Implemented SQL queries to support CRUD operations.
+
 ``System Designer:``
 Ensured adherence to the MVC design pattern for modular development.
 Designed the UML class diagram for project structure visualization.
+
 ``Documentation and Version Control:``
 Documented weekly progress, challenges, and solutions.
+
 ```Screenshot```
 ![Снимок экрана 2024-12-09 224841](https://github.com/user-attachments/assets/fdbb502f-1a7d-4a3b-9fac-45c2caf8c719)
 
