@@ -9,7 +9,7 @@ import java.util.List;
 
 public class VehicleDAO {
 
-    public Vehicle getVehicleById(int vehicleId) throws SQLException {
+    public static Vehicle getVehicleById(int vehicleId) throws SQLException {
         String query = "SELECT v.vehicle_id, v.price_per_day, v.type_name, v.license_plate "
                 + "FROM vehicles v "
                 + "WHERE v.vehicle_id = ?";
@@ -27,11 +27,11 @@ public class VehicleDAO {
                 }
             }
         }
-        return null; // If no vehicle is found
+        return null;
     }
 
     // Add a new vehicle to the database
-    public int addVehicle(Vehicle vehicle) throws SQLException {
+    public static int addVehicle(Vehicle vehicle) throws SQLException {
         String query = "INSERT INTO vehicles (vehicle_id, type_name, license_plate, price_per_day) VALUES (?, ?, ?, ?)";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
@@ -53,7 +53,7 @@ public class VehicleDAO {
 
 
     // Update an existing vehicle
-    public boolean updateVehicle(Vehicle vehicle) throws SQLException {
+    public static boolean updateVehicle(Vehicle vehicle) throws SQLException {
         String query = "UPDATE vehicles SET type_name = ?, license_plate = ?, price_per_day = ? WHERE vehicle_id = ?";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
@@ -66,7 +66,7 @@ public class VehicleDAO {
     }
 
     // Delete a vehicle by its ID
-    public boolean deleteVehicle(int vehicleId) throws SQLException {
+    public static boolean deleteVehicle(int vehicleId) throws SQLException {
         String query = "DELETE FROM vehicles WHERE vehicle_id = ?";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
@@ -76,7 +76,7 @@ public class VehicleDAO {
     }
 
     // Retrieve all vehicles
-    public List<Vehicle> getAllVehicles() throws SQLException {
+    public static List<Vehicle> getAllVehicles() throws SQLException {
         String query = "SELECT v.vehicle_id, v.type_name, v.license_plate, v.price_per_day "
                 + "FROM vehicles v ";
 
@@ -97,4 +97,4 @@ public class VehicleDAO {
         return vehicles;
     }
 
-        }
+}

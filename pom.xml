@@ -29,13 +29,14 @@
             <version>17.0.6</version>
         </dependency>
 
-        <!-- JUnit Dependencies for Testing -->
+        <!-- JUnit Dependencies for Testing (JUnit 5) -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
@@ -49,7 +50,6 @@
             <artifactId>postgresql</artifactId>
             <version>42.6.0</version> <!-- PostgreSQL JDBC driver version -->
         </dependency>
-
     </dependencies>
 
     <build>
@@ -84,6 +84,19 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+
+            <!-- Surefire Plugin for Running JUnit 5 Tests -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.0.0-M5</version>
+                <configuration>
+                    <dependenciesToScan>
+                        <dependency>org.junit.jupiter:junit-jupiter-api</dependency>
+                        <dependency>org.junit.jupiter:junit-jupiter-engine</dependency>
+                    </dependenciesToScan>
+                </configuration>
             </plugin>
         </plugins>
     </build>

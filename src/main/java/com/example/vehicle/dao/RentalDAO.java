@@ -12,7 +12,7 @@ import java.util.List;
 public class RentalDAO {
 
     // Retrieve a rental by its ID
-    public Rental getRentalById(int rentalId) throws SQLException {
+    public static Rental getRentalById(int rentalId) throws SQLException {
         String query = "SELECT r.rental_id, r.user_id, u.user_name, r.vehicle_id, v.type_name, v.license_plate, v.price_per_day, r.start_date, r.end_date, r.total_cost " +
                 "FROM rentals r " +
                 "JOIN users u ON r.user_id = u.user_id " +
@@ -46,7 +46,7 @@ public class RentalDAO {
     }
 
     // Add a new rental
-    public int addRental(Rental rental) throws SQLException {
+    public static  int addRental(Rental rental) throws SQLException {
         String query = "INSERT INTO rentals (user_id, vehicle_id, start_date, end_date, total_cost) VALUES (?, ?, ?, ?, ?)";
 
         try (Connection conn = DBConnection.getConnection();
@@ -75,7 +75,7 @@ public class RentalDAO {
     }
 
     // Update an existing rental
-    public boolean updateRental(Rental rental) throws SQLException {
+    public static  boolean updateRental(Rental rental) throws SQLException {
         String query = "UPDATE rentals SET user_id = ?, vehicle_id = ?, start_date = ?, end_date = ?, total_cost = ? WHERE rental_id = ?";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
@@ -90,7 +90,7 @@ public class RentalDAO {
     }
 
     // Delete a rental by its ID
-    public boolean deleteRental(int rentalId) throws SQLException {
+    public static boolean deleteRental(int rentalId) throws SQLException {
         String query = "DELETE FROM rentals WHERE rental_id = ?";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
@@ -100,7 +100,7 @@ public class RentalDAO {
     }
 
     // Retrieve all rentals
-    public List<Rental> getAllRentals() throws SQLException {
+    public  static List<Rental> getAllRentals() throws SQLException {
         List<Rental> rentals = new ArrayList<>();
         String query = "SELECT r.rental_id, r.user_id, u.user_name, r.vehicle_id, v.type_name, v.license_plate, v.price_per_day, r.start_date, r.end_date, r.total_cost " +
                 "FROM rentals r " +

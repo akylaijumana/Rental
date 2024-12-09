@@ -6,8 +6,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserDAO {
-    public User getUserById(int userId) throws SQLException {
+public  class UserDAO {
+    public static User getUserById(int userId) throws SQLException {
         String query = "SELECT * FROM users WHERE user_id = ?";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(query)) {
@@ -26,7 +26,7 @@ public class UserDAO {
             throw new SQLException("Error fetching user with ID " + userId, e);
         }
     }
-    public int insertUser(User user) throws SQLException {
+    public static int insertUser(User user) throws SQLException {
         String query = "INSERT INTO users (user_name) VALUES (?)";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
@@ -47,7 +47,7 @@ public class UserDAO {
             throw new SQLException("Error inserting user", e);
         }
     }
-    public boolean updateUser(User user) throws SQLException {
+    public static  boolean updateUser(User user) throws SQLException {
         String query = "UPDATE users SET user_name = ? WHERE user_id = ?";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(query)) {
@@ -59,7 +59,7 @@ public class UserDAO {
             throw new SQLException("Error updating user with ID " + user.getUserID(), e);
         }
     }
-    public boolean deleteUser(int userID) throws SQLException {
+    public static boolean deleteUser(int userID) throws SQLException {
         String query = "DELETE FROM users WHERE user_id = ?";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(query)) {
@@ -70,7 +70,7 @@ public class UserDAO {
             throw new SQLException("Error deleting user with ID " + userID, e);
         }
     }
-    public List<User> getAllUsers() throws SQLException {
+    public static List<User> getAllUsers() throws SQLException {
 
         List<User> users = new ArrayList<>();
 
