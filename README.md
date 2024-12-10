@@ -56,3 +56,9 @@ Documented weekly progress, challenges, and solutions.
 ```Screenshot```
 ![Снимок экрана 2024-12-09 224841](https://github.com/user-attachments/assets/fdbb502f-1a7d-4a3b-9fac-45c2caf8c719)
 
+UML Diagram 
+![2024-12-10_21-40-49](https://github.com/user-attachments/assets/dc90ca54-4c7e-4e9e-b53a-a6ef020b3e5a)
+
+
+
+
