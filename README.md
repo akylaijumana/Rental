@@ -47,10 +47,8 @@ The application is developed using JavaFX for its user interface. The design is 
 - **Edit Rentals**: Modify rental records if necessary.
 - **View Rentals**: Display detailed information about active and completed rentals.
 - **Delete Rentals**: Remove erroneous or completed rental records.
-
-### Authentication
-- **Secure Login**: Role-based login system to differentiate between admin and user access.
-- **Error Handling**: Notifications for failed login attempts.
+- 
+---
 
 ### Data Visualization
 - **Comprehensive ListView**: A unified view displaying vehicles, users, and rental data.
