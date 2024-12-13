@@ -11,6 +11,7 @@ operations on vehicles, users, and rentals while calculating rental costs dynami
 Built with JavaFX for the user interface and PostgreSQL for the database, this project employs the MVC architecture to ensure clean, modular, and maintainable code.
 
 ````Project Requirements List````
+
 1)Add Vehicles: Create and store vehicle records, including details such as type, license plate, and price per day.
 
 2)View Vehicles: Display all stored vehicle records in a dynamic ListView.
