@@ -7,7 +7,6 @@ The **Vehicle Rental Management System** is a JavaFX-based application designed 
 ## Team Members List
 
 **Jumanazarova Akylai**
-- Sole contributor
 
 ### Roles:
 - System Design and Development
@@ -75,12 +74,6 @@ The system is designed to:
 
 ### Role-Based Authentication
 - Ensure secure access with distinct permissions for administrators and users.
-
-### Scalability
-- Designed to handle up to 1000 records efficiently.
-
-### Data Security
-- Input validation and hashed passwords for enhanced security.
 
 ---
 
