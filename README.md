@@ -1,64 +1,169 @@
-### Vehicle Rental Management System
+# Vehicle Rental Management System
 
-```Description```
+The **Vehicle Rental Management System** is a JavaFX-based application designed to facilitate the management of vehicle rentals. It provides administrators with CRUD functionality for vehicles, users, and rental records, ensuring efficient data handling and accurate rental tracking. The system integrates PostgreSQL for robust database management and follows the MVC architecture for modularity and scalability.
 
-The Vehicle Rental Management System is a robust application designed to manage
-vehicles, users, and rental records efficiently.
+---
 
-The system enables users to perform CRUD (Create, Read, Update, Delete) 
-operations on vehicles, users, and rentals while calculating rental costs dynamically.
+## Team Members List
 
-Built with JavaFX for the user interface and PostgreSQL for the database, this project employs the MVC architecture to ensure clean, modular, and maintainable code.
+**Jumanazarova Akylai**
+- Sole contributor
 
-````Project Requirements List````
+### Roles:
+- System Design and Development
+- JavaFX GUI creation
+- Backend implementation with PostgreSQL
+- Database schema design
+- Documentation and testing
 
-1)Add Vehicles: Create and store vehicle records, including details such as type, license plate, and price per day.
+---
 
-2)View Vehicles: Display all stored vehicle records in a dynamic ListView.
+## Requirements
 
-3)Update Vehicles: Modify existing vehicle details and synchronize changes with the database.
+### Database Connection
+The system is connected to a PostgreSQL database to store and manage records for vehicles, users, and rentals. The database supports efficient querying and updates.
 
-4)Delete Vehicles: Remove unwanted vehicle records from the system.
+### JavaFX Design
+The application is developed using JavaFX for its user interface. The design is modern, user-friendly, and responsive to ensure a smooth user experience for administrators and customers.
 
-5)Add Users: Register new users in the system.
+---
 
-6)View Users: Display the list of registered users dynamically.
+## Features
 
-7)Add Rentals: Record rental transactions with user and vehicle details, including start and end dates.
+### Vehicle Management
+- **Add Vehicles**: Add new vehicles to the system, specifying attributes such as type, model, brand, and rental cost.
+- **Edit Vehicles**: Update vehicle details when needed.
+- **View Vehicles**: Display a list of all vehicles, including availability and other key information.
+- **Delete Vehicles**: Remove vehicles no longer in service.
 
-8)Calculate Rental Costs: Automatically compute the total rental cost based on the duration and vehicle rate.
+### User Management
+- **Add Users**: Register new users by providing personal details such as name, contact information, and role.
+- **Edit Users**: Update user details as necessary.
+- **View Users**: List all registered users.
+- **Delete Users**: Remove user records when required.
 
-9)Validate Inputs: Ensure data accuracy with checks for invalid or missing inputs.
+### Rental Management
+- **Add Rentals**: Record new rental transactions, linking users and vehicles.
+- **Edit Rentals**: Modify rental records if necessary.
+- **View Rentals**: Display detailed information about active and completed rentals.
+- **Delete Rentals**: Remove erroneous or completed rental records.
 
-10)Dynamic Updates: Refresh ListViews to display the latest data after any CRUD operation.
+### Authentication
+- **Secure Login**: Role-based login system to differentiate between admin and user access.
+- **Error Handling**: Notifications for failed login attempts.
 
-Team Members List:
-Jumanazarova Akylai
+### Data Visualization
+- **Comprehensive ListView**: A unified view displaying vehicles, users, and rental data.
+- **Reports and Analytics**: Summarize data like vehicle utilization, user activity, and rental durations.
 
-``Roles of Group Members``
-Jumanazarova Akylai:
+---
 
-``Project Developer:``
-Designed and implemented the JavaFX user interface, including input forms and ListView components.
+## Purpose and Goals
+The system is designed to:
+- Automate the management of vehicle rentals.
+- Provide a secure and efficient database-backed application.
+- Offer a user-friendly interface for all interactions.
+- Enhance operational efficiency through streamlined workflows.
 
-Developed backend logic with DAO classes for interacting with the PostgreSQL database.
+---
 
-``Database Architect:``
-Designed the PostgreSQL schema, including tables for vehicles, users, and rentals.
-Implemented SQL queries to support CRUD operations.
+## Key Features
 
-``System Designer:``
-Ensured adherence to the MVC design pattern for modular development.
-Designed the UML class diagram for project structure visualization.
+### CRUD Operations
+- Manage vehicles, users, and rentals with intuitive UI components and secure backend operations.
 
-``Documentation and Version Control:``
-Documented weekly progress, challenges, and solutions.
+### Rental Tracking
+- Keep detailed records of rentals, including user and vehicle details.
 
-```Screenshot```
-![Снимок экрана 2024-12-09 224841](https://github.com/user-attachments/assets/fdbb502f-1a7d-4a3b-9fac-45c2caf8c719)
+### Role-Based Authentication
+- Ensure secure access with distinct permissions for administrators and users.
 
-UML Diagram 
-![2024-12-10_21-40-49](https://github.com/user-attachments/assets/dc90ca54-4c7e-4e9e-b53a-a6ef020b3e5a)
+### Scalability
+- Designed to handle up to 1000 records efficiently.
+
+### Data Security
+- Input validation and hashed passwords for enhanced security.
+
+---
+
+## Database Design
+
+### Tables
+1. **Users**:
+   - `user_id`, `username`, `password`, `email`, `phone_number`, `role`.
+2. **Vehicles**:
+   - `vehicle_id`, `type_name`, `brand`, `model`, `rental_price`, `availability`.
+3. **Rentals**:
+   - `rental_id`, `user_id`, `vehicle_id`, `start_date`, `end_date`, `total_cost`.
+
+### Database Connection Details
+- **URL**: `jdbc:postgresql://localhost:5432/vehicle`
+- **User**: `postgres`
+- **Password**: `akylai95`
+
+---
+
+## Functional Requirements
+- **Secure Authentication**: Login system for admins and users.
+- **CRUD Operations**: Create, read, update, and delete data for vehicles, users, and rentals.
+- **Error Handling**: Notify users of invalid input or system issues.
+- **Responsive UI**: Ensure all operations complete within 2 seconds.
+
+---
+
+## Technical Requirements
+- **Database**: PostgreSQL (version 13 or higher).
+- **JavaFX**: For building the user interface.
+- **Java Libraries**:
+  - `java.sql` for database operations.
+  - `java.util` for collections and utilities.
+  - `java.time.LocalDate` for date handling.
+  
+![](https://github.com/user-attachments/assets/fdbb502f-1a7d-4a3b-9fac-45c2caf8c719).
+
+---
+
+## Interface Specification
+
+### Management Screens
+#### Vehicles, Users, and Rentals
+- Table: Displays corresponding data.
+- Buttons: Add, Edit, Delete.
+
+---
+
+## Custom Scenarios
+
+### Adding a Vehicle
+- **Precondition**: Navigate to the Vehicle Management tab.
+- **Main Flow**: Enter vehicle details (ID, type, license plate, price per day).
+
+Click "Add" to save the new vehicle to the database
+- **Postcondition**:  The new vehicle appears in the Vehicle Management table.
+
+### Renting a Vehicle
+- **Precondition**:  Ensure both user and vehicle records exist in the system.
+- **Main Flow**: Select user and vehicle, specify rental period, and confirm.
+- **Postcondition**:The rental details are saved and displayed in the Rental Management table.
+
+
+---
+
+## Dependencies
+- **PostgreSQL**: For database management.
+- **JavaFX**: For graphical user interface.
+- **Java Libraries**: For essential operations.
+
+---
+
+## UML Diagram
+![image](https://github.com/user-attachments/assets/79a7af16-427c-4109-944c-f5bca3321d74).
+
+---
+
+## Presentation
+*Click here to view the project presentation.*
+![](https://www.canva.com/design/DAGYyxLgDDA/rgm2W3aWmMR8Y4PdjKIdcQ/edit?utm_content=DAGYyxLgDDA&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton).
 
 
 
