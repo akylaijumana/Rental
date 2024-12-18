@@ -140,6 +140,16 @@ Click "Add" to save the new vehicle to the database
 
 ---
 
+##Testing
+
+![Снимок экрана 2024-12-18 090305](https://github.com/user-attachments/assets/cbd1667a-6bc9-4d55-bc8b-0a77fb610aeb)
+![Снимок экрана 2024-12-18 090255](https://github.com/user-attachments/assets/9cd4d52b-91ed-4b55-a52c-f64cc376151a)
+![Снимок экрана 2024-12-18 090234](https://github.com/user-attachments/assets/13503495-e5e1-46b3-a531-3ffdd24e7a7e)
+![Снимок экрана 2024-12-18 090214](https://github.com/user-attachments/assets/a122f1ce-dd44-4c70-a542-d2b9bbdd7892)
+![Снимок экрана 2024-12-18 090317](https://github.com/user-attachments/assets/617da592-5404-4678-b3b5-e5583b96fa4f)
+
+---
+
 ## Dependencies
 - **PostgreSQL**: For database management.
 - **JavaFX**: For graphical user interface.
