@@ -61,7 +61,7 @@ class RentalDAOTest {
     @Test
     void testDeleteRental() throws Exception {
         User testUser = new User(1, "Test User");
-        Vehicle testVehicle = new Vehicle(1, "Car", "ABC123", 50.0);
+        Vehicle testVehicle = new Vehicle(1, "Car", "ABC124", 50.0);
         Rental rental = new Rental(0, testUser, testVehicle,
                 Date.valueOf("2024-01-01"), Date.valueOf("2024-01-10"), 500.0);
 
