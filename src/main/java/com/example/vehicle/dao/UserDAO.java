@@ -26,7 +26,7 @@ public  class UserDAO {
             throw new SQLException("Error fetching user with ID " + userId, e);
         }
     }
-    public static int insertUser(User user) throws SQLException {
+    public int insertUser(User user) throws SQLException {
         String query = "INSERT INTO users (user_name) VALUES (?)";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
@@ -47,7 +47,7 @@ public  class UserDAO {
             throw new SQLException("Error inserting user", e);
         }
     }
-    public static  boolean updateUser(User user) throws SQLException {
+    public   boolean updateUser(User user) throws SQLException {
         String query = "UPDATE users SET user_name = ? WHERE user_id = ?";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(query)) {
@@ -59,7 +59,7 @@ public  class UserDAO {
             throw new SQLException("Error updating user with ID " + user.getUserID(), e);
         }
     }
-    public static boolean deleteUser(int userID) throws SQLException {
+    public  boolean deleteUser(int userID) throws SQLException {
         String query = "DELETE FROM users WHERE user_id = ?";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(query)) {
@@ -70,7 +70,7 @@ public  class UserDAO {
             throw new SQLException("Error deleting user with ID " + userID, e);
         }
     }
-    public static List<User> getAllUsers() throws SQLException {
+    public  List<User> getAllUsers() throws SQLException {
 
         List<User> users = new ArrayList<>();
 

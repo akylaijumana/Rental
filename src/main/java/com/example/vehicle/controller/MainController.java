@@ -14,12 +14,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-
 import java.sql.SQLException;
 import java.util.Date;
 
 public class MainController {
-
     // Vehicle fields
     @FXML private TextField vehicleIdField;
     @FXML private TextField vehicleTypeField;
@@ -28,17 +26,14 @@ public class MainController {
     @FXML private Button addVehicleButton;
     @FXML private Button updateVehicleButton;
     @FXML private Button deleteVehicleButton;
-
     // User fields
     @FXML private TextField userNameField;
     @FXML private TextField userIdField;
     @FXML private Button addUserButton;
     @FXML private Button updateUserButton;
     @FXML private Button deleteUserButton;
-
     // Rental fields
     @FXML private TextField rentalUserIdField;
-
     @FXML private TextField rentalVehicleIdField;
     @FXML private DatePicker startDateField;
     @FXML private DatePicker endDateField;
@@ -46,17 +41,14 @@ public class MainController {
     @FXML private TextField rentalIdField;
     @FXML private Button updateRentalButton;
     @FXML private Button deleteRentalButton;
-
     // ListViews
     @FXML private ListView<Vehicle> vehicleListView;
     @FXML private ListView<User> userListView;
     @FXML private ListView<Rental> rentalListView;
-
     // DAOs
     private VehicleDAO vehicleDAO = new VehicleDAO();
     private UserDAO userDAO = new UserDAO();
     private RentalDAO rentalDAO = new RentalDAO();
-
     // Observable lists for ListViews
     private ObservableList<Vehicle> vehicleListItems = FXCollections.observableArrayList();
     private ObservableList<User> userListItems = FXCollections.observableArrayList();
@@ -83,7 +75,6 @@ public class MainController {
         String typeName = vehicleTypeField.getText();
         String licensePlate = vehicleLicensePlateField.getText();
         double pricePerDay = Double.parseDouble(vehiclePriceField.getText());
-
         try {
             // Validate vehicle ID input (ensure it's a valid number and not zero)
             int vehicleId = Integer.parseInt(vehicleIdText);
@@ -91,14 +82,13 @@ public class MainController {
                 System.out.println("Error: Vehicle ID must be a positive integer.");
                 return;
             }
-
             // Create the Vehicle object with the manually input vehicle ID
             Vehicle vehicle = new Vehicle(vehicleId, typeName, licensePlate, pricePerDay);
 
             // Add the vehicle using the DAO
             int id = vehicleDAO.addVehicle(vehicle);
             if (id > 0) {
-                vehicle.setVehicleId(id); // Set the generated ID in the Vehicle object
+                vehicle.setVehicleId(id);
                 vehicleListItems.add(vehicle);
                 clearVehicleFields();
             } else {
@@ -110,20 +100,14 @@ public class MainController {
             System.out.println("Error: Invalid vehicle ID input.");
         }
     }
-
-
-
     @FXML
     public void handleUpdateVehicle() {
         try {
-            // Parse the input fields
             int vehicleId = Integer.parseInt(vehicleIdField.getText());
             String typeName = vehicleTypeField.getText();
             String licensePlate = vehicleLicensePlateField.getText();
             double pricePerDay = Double.parseDouble(vehiclePriceField.getText());
 
-
-            // Create a Vehicle object
             Vehicle vehicle = new Vehicle(vehicleId, typeName, licensePlate, pricePerDay);
 
             if (vehicleDAO.updateVehicle(vehicle)) {
@@ -137,7 +121,6 @@ public class MainController {
             System.out.println("Error updating vehicle: " + e.getMessage());
         }
     }
-
     @FXML
     public void handleDeleteVehicle() {
         try {
@@ -151,7 +134,6 @@ public class MainController {
             System.out.println("Error deleting vehicle: " + e.getMessage());
         }
     }
-
     @FXML
     public void handleAddUser() {
         String userName = userNameField.getText();
@@ -202,7 +184,6 @@ public class MainController {
             System.out.println("Error deleting user: " + e.getMessage());
         }
     }
-
     @FXML
     public void handleAddRental() {
         try {
@@ -210,10 +191,8 @@ public class MainController {
             int vehicleId = Integer.parseInt(rentalVehicleIdField.getText());
             String startDateStr = startDateField.getValue().toString();
             String endDateStr = endDateField.getValue().toString();
-
             User user = userDAO.getUserById(userId);
             Vehicle vehicle = vehicleDAO.getVehicleById(vehicleId);
-
             if (user == null) {
                 System.out.println("Error: User with ID " + userId + " not found.");
                 return;
@@ -222,19 +201,16 @@ public class MainController {
                 System.out.println("Error: Vehicle with ID " + vehicleId + " not found.");
                 return;
             }
-
             java.util.Date startDate = java.sql.Date.valueOf(startDateStr);
             java.util.Date endDate = java.sql.Date.valueOf(endDateStr);
 
             long durationInMillis = endDate.getTime() - startDate.getTime();
             if (durationInMillis <= 0) {
-                System.out.println("Error: End date must be after start date.");
+                System.out.println("Error");
                 return;
             }
-
             long days = durationInMillis / (1000 * 60 * 60 * 24);
             double totalCost = vehicle.getPricePerDay() * days;
-
             Rental rental = new Rental(0, user, vehicle, startDate, endDate, totalCost);
             int rentalId = rentalDAO.addRental(rental);
             if (rentalId > 0) {
@@ -250,7 +226,6 @@ public class MainController {
             System.out.println("Error adding rental: " + e.getMessage());
         }
     }
-
     @FXML
     public void handleUpdateRental() {
         int rentalId = Integer.parseInt(rentalIdField.getText());
@@ -258,22 +233,17 @@ public class MainController {
         int vehicleId = Integer.parseInt(rentalVehicleIdField.getText());
         String startDateStr = startDateField.getValue().toString();
         String endDateStr = endDateField.getValue().toString();
-
         try {
             Rental rental = rentalDAO.getRentalById(rentalId);
             User user = userDAO.getUserById(userId);
             Vehicle vehicle = vehicleDAO.getVehicleById(vehicleId);
-
             if (user == null || vehicle == null) {
                 System.out.println("Error: User or vehicle not found.");
-                return;
-            }
-
+                return;}
             rental.setUser(user);
             rental.setVehicle(vehicle);
             rental.setStartDate(java.sql.Date.valueOf(startDateStr));
             rental.setEndDate(java.sql.Date.valueOf(endDateStr));
-
             if (rentalDAO.updateRental(rental)) {
                 updateListView();
             } else {
@@ -283,7 +253,6 @@ public class MainController {
             System.out.println("Error updating rental: " + e.getMessage());
         }
     }
-
     @FXML
     public void handleDeleteRental() {
         try {
@@ -297,7 +266,6 @@ public class MainController {
             System.out.println("Error deleting rental: " + e.getMessage());
         }
     }
-
     private void updateListView() {
         try {
             userListItems.setAll(userDAO.getAllUsers());
@@ -307,19 +275,16 @@ public class MainController {
             System.out.println("Error updating list view: " + e.getMessage());
         }
     }
-
     private void clearVehicleFields() {
         vehicleIdField.clear();
         vehicleTypeField.clear();
         vehicleLicensePlateField.clear();
         vehiclePriceField.clear();
     }
-
     private void clearUserFields() {
         userNameField.clear();
         userIdField.clear();
     }
-
     private void clearRentalFields() {
         rentalUserIdField.clear();
         rentalVehicleIdField.clear();
